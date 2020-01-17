@@ -18,11 +18,11 @@ setClass("schwartz2f",
                    sigmaE = 0.3,
                    rhoSE = 0.5)
          )
-//参数定义
-setClass(Class类名, representation, prototype属性的默认值, contains=character()父类，继承关系,
-          validity属性的类型检查, access, where存储空间, version, sealed如果设置TRUE，则同名类不能被再次定义, package所属的包,
-          S3methods = FALSE, slots属性和属性类型)
-//数值型 (numeric); 逻辑型 (logical):取TRUE和FALSE两个固定值; 字符型 (character); 矩阵（matrix）          
+##参数定义
+##setClass(Class类名, representation, prototype属性的默认值, contains=character()父类，继承关系,
+##          validity属性的类型检查, access, where存储空间, version, sealed如果设置TRUE，则同名类不能被再次定义, package所属的包,
+##         S3methods = FALSE, slots属性和属性类型)
+##数值型 (numeric); 逻辑型 (logical):取TRUE和FALSE两个固定值; 字符型 (character); 矩阵（matrix）          
 setClass("schwartz2f.fit",
          representation(n.iter = "numeric",
                         llh = "numeric",
@@ -60,7 +60,7 @@ schwartz2f <- function(s0 = 100, delta0 = 0,
                        rho = 0.5)
 {
    call <- match.call()
-  //这个函数会在一般都是写在另外一个函数里边。其会返回其宿主函数体的入参的匹配关系。 
+  ##这个函数会在一般都是写在另外一个函数里边。其会返回其宿主函数体的入参的匹配关系。 
   ## <------------------------------------------------------------>
   ## Check input
   ## <------------------------------------------------------------>
@@ -116,3 +116,56 @@ schwartz2f <- function(s0 = 100, delta0 = 0,
   if(!is.finite(rho) | !is.numeric(rho)){
     stop("'rho' must be numeric and finite!")
   }
+         
+ ## length:
+  if(length(s0) != 1){
+    stop("'S0' must have length 1!")
+  }
+  if(length(delta0) != 1){
+    stop("'delta0' must have length 1!")
+  }
+  if(length(mu) != 1){
+    stop("'mu' must have length 1!")
+  }
+  if(length(sigmaS) != 1){
+    stop("'sigmaS' must have length 1!")
+  }
+  if(length(kappa) != 1){
+    stop("'kappa' must have length 1!")
+  }
+  if(length(alpha) != 1){
+    stop("'alpha' must have length 1!")
+  }
+  if(length(sigmaE) != 1){
+    stop("'sigmaE' must have length 1!")
+  }
+  if(length(rho) != 1){
+    stop("'rho' must have length 1!")
+  }
+         
+       ## special cases:
+  if(sigmaE <= 0){
+    stop("'sigmaE' must be greater than 0!")
+  }
+  if(sigmaS <= 0){
+    stop("'sigmaS' must be greater than 0!")
+  }
+  if(kappa <= 0){
+    stop("'kappa' must be greater than 0!")
+  }
+
+  return(new("schwartz2f",
+             call = call,
+             s0 = unname(s0),
+             delta0 = unname(delta0),
+             mu = unname(mu),
+             sigmaS = unname(sigmaS),
+             kappaE = unname(kappa),
+             alpha = unname(alpha),
+             sigmaE = unname(sigmaE),
+             rhoSE = unname(rho)))
+}
+                      ##> unname(L)
+                      ##去掉列表L里的对象名。
+
+### <---------------------------------------------------------------------->
