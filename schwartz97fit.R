@@ -159,6 +159,8 @@ fit.schwartz2f <- function(data, ttm, deltat = 1 / 260,
 
   theta.backup <- rbind(c(NA, NA, NA, thetaOpt))
   colnames(theta.backup) <- c("logLik", "rel.tol", "abs.tol", names(thetaOpt))
+  
+  
 ## Transformations
   if(opt.pars["rho"]){
     thetaOpt["rho"] <- tan(thetaOpt["rho"] * pi / 2)
@@ -213,7 +215,7 @@ fit.schwartz2f <- function(data, ttm, deltat = 1 / 260,
                                 gg = gg,
                                 r = r, d = d, n = n)
 
-  filtered.ts <- fkf(a0 = stateSpace$a0,
+  filtered.ts <- fkf(a0 = stateSpace$a0,            ##kalman filtering 包？？？？？？？？？？？？？？？？
                      P0 = stateSpace$P0,
                      Tt = stateSpace$Tt,
                      dt = stateSpace$dt,
