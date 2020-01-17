@@ -115,7 +115,7 @@
   prod <- matrix(c(1, compB), ncol = 1)
   return(as.numeric(t(prod) %*% sigma.state %*% prod))  ## %*%是两个矩阵的乘积
 }
-##九、
+##九、计算sigma
 .sigma.opt.schwartz2f <- function(time, Time, kappa, sigmaS, sigmaE, rho)
 {
   term1 <- sigmaS^2 * time
@@ -157,7 +157,7 @@
   ##   Tt <- array(matrix(c(1, 0, -deltat, 1 - kappa * deltat), 2, 2),
   ##               c(2, 2, 1))
 
-  ##   dt <- matrix(c((mu - 1/2 * sigmaS^2) * deltat,
+  ##   dt <- matrix(c((mu - 1/2 * sigmaS^2) * deltat,                      ##dt是两行一列
   ##                  kappa * alpha * deltat), 2, 1)
 
   ##   HHt <- array(matrix(c(sigmaS^2 * deltat,
@@ -169,7 +169,7 @@
 
 
   ## Measurement equation for the Schwartz two-factor model
-  yt <- t(y)
+  yt <- t(y)                                                ## t()是行列转换
 
   ct <- t(.A.schwartz2f(kappa = kappa,
                         sigmaS = sigmaS, sigmaE = sigmaE, rho = rho,
@@ -188,7 +188,7 @@
               yt = yt, Zt = Zt, ct = ct, GGt = GGt))
 }
 
-##十、
+##十、模拟
 .sim.futures <- function(time, dt, ttm = NA, obj = schwartz2f(), r = 0.03, lambda = 0, sd = 0.01)
 {
   n <- time / dt
