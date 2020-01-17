@@ -204,15 +204,15 @@ plot.schwartz2f <- function(x, n = 100, time = 2, dt = 1/52)
   deltat.quantiles <- sapply(quantiles, qnorm, mean = means[,2], sd = deltat.sd)
   
   oldpar <- par(no.readonly = TRUE)     ##直接在R编辑器中输入命令par()或者par(no.readonly=TRUE)都可以获取当前的各个绘图参数。
-  on.exit({
+  on.exit({                             ##？？？？？？？？？？？？？？？？？？？？？？？？？？
     par(oldpar)
   })
 
-  par(mfrow = c(2, 1))
-  par(oma = c(5,0,0,0) + 0.1)
+  par(mfrow = c(2, 1))            ## mfcol，mrow。用于设定绘图区域的布局,即将当前的绘图区域分隔成了nr*nc个子区域），
+  par(oma = c(5,0,0,0) + 0.1)     ##参数形式为c(nr, nc)。子图的绘图顺序是按列还是按行就分别根据是参数指定的是mfcol还是mfrow。
   par(mai = c(0,1,0,0))
 
-  ## plot spot prices
+  ## plot spot prices                                                                   画图！！！！！！！
   plot(time.seq, time.seq, ylim = range(st, st.quantiles), type = "n",
        main = "", xlab = "", ylab = "S(t)", xaxt = "n")
 
@@ -225,7 +225,7 @@ plot.schwartz2f <- function(x, n = 100, time = 2, dt = 1/52)
          c("Trajectories", "Mean", "99% CI", "95% CI", "90% CI"),
          col = c("grey", rep("red", 4)), lty = c("solid", "solid", lty), bg = "white")
   
-  ## plot convenience yield
+  ## plot convenience yield                                                             画图！！！！！！！
   plot(time.seq, time.seq, ylim = range(deltat, deltat.quantiles), type = "n",
        main = "", xlab = "time", ylab = "delta(t)")
   apply(deltat, 2, function(y, x)lines(x, y, col = "grey"), x = time.seq) 
