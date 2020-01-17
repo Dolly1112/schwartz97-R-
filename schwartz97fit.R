@@ -215,7 +215,7 @@ fit.schwartz2f <- function(data, ttm, deltat = 1 / 260,
                                 gg = gg,
                                 r = r, d = d, n = n)
 
-  filtered.ts <- fkf(a0 = stateSpace$a0,            ##kalman filtering 包？？？？？？？？？？？？？？？？
+  filtered.ts <- fkf(a0 = stateSpace$a0,            ##kalman filtering 包！！！！！！！！！！！！！！！！！！
                      P0 = stateSpace$P0,
                      Tt = stateSpace$Tt,
                      dt = stateSpace$dt,
