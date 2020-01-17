@@ -1,12 +1,12 @@
-.clean.rda.data <- function(tmp.list, idx = 1:6)
+.clean.rda.data <- function(tmp.list, idx = 1:6)      ##一、Removes NAs from the internal futures data sets. 
 {
   na.idx <- apply(is.na(tmp.list$futures[,idx]), 1, any)
   tmp.list$futures <- tmp.list$futures[!na.idx, idx]
   tmp.list$maturity <- tmp.list$maturity[!na.idx, idx]
   return(tmp.list)
 }
-
-.get.data <- function(data, type = c("uv", "mv"))
+##二、Check whether data is of a particular format and return a clean version of data.
+.get.data <- function(data, type = c("uv", "mv"))     
 {
 
   type <- match.arg(type)
@@ -24,7 +24,7 @@
   return(data.clean)
   
 }
-
+##三、计算Schwartz两因素模型的联合正态分布状态变量的均值向量。 状态变量是现货对数价格和现货便利性收益。
 .mu.state.schwartz2f <- function(x0, delta0, mu, sigmaS, kappa,
                                  alpha, sigmaE, rho,
                                  time, as.mat = FALSE)
@@ -39,7 +39,7 @@
   else
     return(matrix(c(mX, mD), 2))
 }
-
+##四、计算Schwartz两因素模型的联合正态分布状态变量的协方差矩阵。 状态变量是现货对数价格和现货便利性收益。
 .sigma.state.schwartz2f <- function(sigmaS, kappa, sigmaE,
                                     rho, time)
 {
@@ -60,7 +60,7 @@
 ##  browser()
   return(cbind(c(vX, vXD), c(vXD, vD)))
 }
-
+##五、计算A（T）
 .A.schwartz2f <- function(kappa, sigmaS, sigmaE, rho,
                           alphaT, r, ttm)
 {
@@ -74,12 +74,12 @@
 }
 
 
-
+##六、计算B（T）
 .B.schwartz2f <- function(kappa, ttm)
 {
     return((exp(-kappa * ttm) - 1) / kappa)
 }
-
+##七、计算mu
 .mu.fut.schwartz2f <- function(x0, delta0, mu, sigmaS,
                                kappa, sigmaE, rho,
                                alpha, alphaT, r, time, ttm,
@@ -102,9 +102,9 @@
                                      alpha = alphaT, sigmaE = sigmaE,
                                      rho = rho, time = time)
   }
-  return(sum(c(mu.state, 1) * c(1, compB, compA)))
+  return(sum(c(mu.state, 1) * c(1, compB, compA)))    #my.state第一列的数乘一个数列1，compB，compA
 }
-
+##八、
 .sigma.fut.schwartz2f <- function(sigmaS, kappa, sigmaE, rho, time, ttm)
 {
   compB <- .B.schwartz2f(kappa, ttm - time)
@@ -113,9 +113,9 @@
                                          time = time)
 
   prod <- matrix(c(1, compB), ncol = 1)
-  return(as.numeric(t(prod) %*% sigma.state %*% prod))  
+  return(as.numeric(t(prod) %*% sigma.state %*% prod))  ## %*%是两个矩阵的乘积
 }
-
+##九、
 .sigma.opt.schwartz2f <- function(time, Time, kappa, sigmaS, sigmaE, rho)
 {
   term1 <- sigmaS^2 * time
@@ -188,7 +188,7 @@
               yt = yt, Zt = Zt, ct = ct, GGt = GGt))
 }
 
-
+##十、
 .sim.futures <- function(time, dt, ttm = NA, obj = schwartz2f(), r = 0.03, lambda = 0, sd = 0.01)
 {
   n <- time / dt
