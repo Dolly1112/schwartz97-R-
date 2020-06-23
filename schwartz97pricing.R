@@ -26,7 +26,7 @@ pricefutures.default <- function(ttm = 1, s0 = 50, delta0 = 0,
 
   return(s0 * exp(delta0 * compB + compA))
 }
-
+##############################################################################修改
 setMethod("pricefutures", signature(ttm = "ANY", s0 = "numeric"),
           pricefutures.default)
 
