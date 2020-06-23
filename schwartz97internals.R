@@ -39,6 +39,11 @@
   else
     return(matrix(c(mX, mD), 2))
 }
+#########################################################################################################################
+##.mu.state.schwartz2f <- function(x0, delta0, mu, sigmaS, kappa,
+##                                 alpha, sigmaE,m,sigmaI, rho1,rho2,rho3,
+##                                 time, as.mat = FALSE)
+###################################################################################################################
 ##四、计算Schwartz两因素模型的联合正态分布状态变量的协方差矩阵。 状态变量是现货对数价格和现货便利性收益。
 .sigma.state.schwartz2f <- function(sigmaS, kappa, sigmaE,
                                     rho, time)
@@ -72,8 +77,26 @@
 
   return(term1 + term2 + term3)
 }
-##########################################################修改A（T）
+###################################################################################################################
+.C.schwartz2f <- function(kappa, sigmaS, sigmaE, sigmaI,rho1,rho2,rho3,a
+                          alphaT, r, ttm)
+{
+  term1 <- (kappa*alphaT+sigmaS*sigmaE*rho1)*((1-exp(-kappa*ttm)-kappa*ttm)/kappa^2
+  term2 <- -0.25 * sigmaE^2 * (4*(1-exp(-kappa*ttm)-(1-exp(-2*kappa*ttm)-2*kappa*ttm))) / kappa^3
+  term3 <- -(a*m+sigmaS*sigmaI*rho3)*((1-exp(-kappa*ttm)-a*ttm)/a^2
+  term4 <- -0.25 * sigmaI^2 * (4*(1-exp(-a*ttm)-(1-exp(-2*a*ttm)-2*a*ttm))) / a^3
+  term5 <- sigmaE*sigmaI*rho2*(((1-exp(-kappa*ttm))+(1-exp(-a*ttm))-(1-exp(-(kappa+a)*ttm)))/(kappa*a*(kappa+a))
++(kappa^2*(1-exp(-a*ttm))+a^2*(1-exp(-kappa*ttm))-kappa*a^2*ttm-a*kappa^2*ttm)/(kappa^2*a^2*(kappa+a)))
 
+  return(term1 + term2 + term3 + term4 + term5)
+}
+.A.schwartz2f <- function(kappa, sigmaS, sigmaE, sigmaI,rho1,rho2,rho3,a
+                          alphaT, r, ttm)
+  {
+   term1 <- r*(1-exp(-kappa*ttm))/a
+  return(term + .C.schwartz2f)
+}
+###################################################################################################################                                      
 ##六、计算B（T）
 .B.schwartz2f <- function(kappa, ttm)
 {
@@ -175,7 +198,13 @@
                         sigmaS = sigmaS, sigmaE = sigmaE, rho = rho,
                         alphaT = alpha - lambda / kappa,
                         r = r, ttm = ttm))
-
+###################################################################################################################
+  ct <- t(.A.schwartz2f(kappa = kappa,
+                        sigmaS = sigmaS, sigmaE = sigmaE, sigmaI=sigmaI,
+                        rho1 = rho1,rho2 = rho2,rho3 = rho3,
+                        alphaT = alpha - lambda / kappa,
+                        r = r, ttm = ttm))
+###################################################################################################################
   Zt <- array(1, c(d, 2, n))
   Zt[,2,] <- t(.B.schwartz2f(kappa = kappa, ttm = ttm))
 
