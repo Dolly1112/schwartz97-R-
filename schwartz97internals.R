@@ -72,7 +72,7 @@
 
   return(term1 + term2 + term3)
 }
-
+##########################################################修改A（T）
 
 ##六、计算B（T）
 .B.schwartz2f <- function(kappa, ttm)
