@@ -113,6 +113,7 @@ setMethod("mean", signature(x = "schwartz2f"), mean.schwartz2f)
 
 
 ### <======================================================================>
+  #################################################################################修改
 show.schwartz2f <- function(object)
 {
     cat("\n----------------------------------------------------------------\n")
@@ -208,11 +209,11 @@ plot.schwartz2f <- function(x, n = 100, time = 2, dt = 1/52)
     par(oldpar)
   })
 
-  par(mfrow = c(2, 1))            ## mfcol，mrow。用于设定绘图区域的布局,即将当前的绘图区域分隔成了nr*nc个子区域），
+  par(mfrow = c(2, 1))            
   par(oma = c(5,0,0,0) + 0.1)     ##参数形式为c(nr, nc)。子图的绘图顺序是按列还是按行就分别根据是参数指定的是mfcol还是mfrow。
   par(mai = c(0,1,0,0))
 
-  ## plot spot prices                                                                   画图！！！！！！！
+  ## plot spot prices                                                                  
   plot(time.seq, time.seq, ylim = range(st, st.quantiles), type = "n",
        main = "", xlab = "", ylab = "S(t)", xaxt = "n")
 
@@ -225,7 +226,7 @@ plot.schwartz2f <- function(x, n = 100, time = 2, dt = 1/52)
          c("Trajectories", "Mean", "99% CI", "95% CI", "90% CI"),
          col = c("grey", rep("red", 4)), lty = c("solid", "solid", lty), bg = "white")
   
-  ## plot convenience yield                                                             画图！！！！！！！
+  ## plot convenience yield                                                            
   plot(time.seq, time.seq, ylim = range(deltat, deltat.quantiles), type = "n",
        main = "", xlab = "time", ylab = "delta(t)")
   apply(deltat, 2, function(y, x)lines(x, y, col = "grey"), x = time.seq) 
